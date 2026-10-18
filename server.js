@@ -51,7 +51,7 @@ async function extract(buf, mime) {
   const block = mime === "application/pdf"
     ? { type: "document", source: { type: "base64", media_type: mime, data: buf.toString("base64") } }
     : { type: "image", source: { type: "base64", media_type: mime, data: buf.toString("base64") } };
-  const r = await claude.messages.create({ model: "claude-sonnet-5-5", max_tokens: 4000, system: SYSTEM_PROMPT,
+  const r = await claude.messages.create({ model: "claude-3-5-sonnet-20241022", max_tokens: 4000, system: SYSTEM_PROMPT,
     messages: [{ role: "user", content: [block, { type: "text", text: "חלץ את הנתונים מהמסמך." }] }] });
   const txt = r.content.map(b => b.text || "").join("").replace(/```json|```/g, "").trim();
   return JSON.parse(txt);
