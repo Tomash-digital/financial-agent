@@ -133,3 +133,14 @@ app.listen(E.PORT || 3000, async () => {
   if (E.SET_WEBHOOK === "1") // one-time: point Green API at this server
     await gapi("setSettings", { webhookUrl: `${E.BASE_URL}/greenapi`, webhookUrlToken: `Bearer ${E.WEBHOOK_TOKEN}`, incomingWebhook: "yes", outgoingWebhook: "no", outgoingMessageWebhook: "no" });
 });
+app.get("/get-id", async (req, res) => {
+  try {
+    const id = process.env.GREEN_ID;
+    const token = process.env.GREEN_TOKEN;
+    const response = await fetch(`https://api.green-api.com/waInstance${id}/getChats/${token}`);
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
