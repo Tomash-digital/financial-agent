@@ -100,9 +100,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.get("/api/data", (_, res) => res.json({ transactions: state.transactions, previous: state.previous }));
 
-app.post("/whatsapp", async (req, res) => {
-  const valid = twilio.validateRequest(E.TWILIO_TOKEN, req.get("X-Twilio-Signature") || "", `${E.BASE_URL}/whatsapp`, req.body);
-  if (!valid) return res.sendStatus(403);
+// app.post("/whatsapp", async (req, res) => {
+ // const valid = twilio.validateRequest(E.TWILIO_TOKEN, req.get("X-Twilio-Signature") || "", `${E.BASE_URL}/whatsapp`, req.body);
+  // if (!valid) return res.sendStatus(403);
   res.type("text/xml").send("<Response/>"); // ack fast, work async
   try {
     const b = req.body, btn = b.ButtonPayload || b.ButtonText;
